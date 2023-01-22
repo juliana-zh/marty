@@ -11,6 +11,10 @@ class Workout {
     this.duration = duration; // in min
   }
 
+  _typeToUpper() {
+    return `${this.type[0].toUpperCase()}${this.type.slice(1)}`;
+  }
+
   _setDescription() {
     // prettier-ignore
     const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
@@ -109,9 +113,7 @@ class App {
 
     this.#map.on("click", this._showForm.bind(this));
 
-    this.#workouts.forEach((work) => {
-      this._renderWorkoutMarker(work);
-    });
+    this.#workouts.forEach((work) => this._renderWorkoutMarker(work));
   }
 
   _showForm(mapE) {
@@ -212,7 +214,7 @@ class App {
   _renderWorkout(workout) {
     let html = `
     <li class="workout workout--${workout.type}" data-id="${workout.id}">
-        <h2 class="workout__title">Running on April 14</h2>
+        <h2 class="workout__title">${workout.description}</h2>
         <div class="workout__details">
         <span class="workout__icon">${
           workout.type === "running" ? "🏃‍♂️" : "🚴‍♀️"
@@ -292,6 +294,8 @@ class App {
     this.#workouts = data;
 
     this.#workouts.forEach((work) => {
+      console.log(work);
+
       this._renderWorkout(work);
     });
   }
